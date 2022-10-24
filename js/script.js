@@ -2,91 +2,150 @@
 document.addEventListener("DOMContentLoaded", () => {
   //PROGRAM START
   //TABS Start
-  const tabsParent = document.querySelector('.tabheader__items'),
-        tabs = tabsParent.querySelectorAll('.tabheader__item'),
-        tabContent = document.querySelectorAll('.tabcontent');
+  const tabsParent = document.querySelector(".tabheader__items"),
+    tabs = tabsParent.querySelectorAll(".tabheader__item"),
+    tabsContent = document.querySelectorAll(".tabcontent");
 
   function hideTabContent() {
-    tabContent.forEach(tab => {      
-      tab.classList.remove('show', 'fade');
-      tab.classList.add('hide');
+    tabsContent.forEach((tab) => {
+      tab.classList.add("hide");
+      tab.classList.remove("show", "fade");
     });
 
-    tabs.forEach(tab =>{
-      tab.classList.remove('tabheader__item_active');
+    tabs.forEach((tab) => {
+      tab.classList.remove("tabheader__item_active");
     });
   }
   hideTabContent();
 
   function showTabContent(i = 0) {
-    tabContent[i].classList.add('show', 'fade');
-    tabContent[i].classList.remove('hide');
-
-    tabs[i].classList.add('tabheader__item_active');
+    tabsContent[i].classList.add("show", "fade");
+    tabsContent[i].classList.remove("hide");
+    tabs[i].classList.add("tabheader__item_active");
   }
   showTabContent();
 
-  tabsParent.addEventListener('click', (event) => {
+  tabsParent.addEventListener("click", (event) => {
     const target = event.target;
-    if (target && target.matches('.tabheader__item')) {
-      tabs.forEach((tab, i) => {
-        tab.addEventListener('click', () => {
-          if (target == tab) {
-            hideTabContent();
-            showTabContent(i);
-          }
-        });
+    if (target && target.classList.contains("tabheader__item")) {
+      tabs.forEach((tab, index) => {
+        if (target == tab) {
+          hideTabContent();
+          showTabContent(index);
+        }
       });
     }
   });
-  //TABS End
+  //TABS End_______________________________________________________
+
   //TIMER Start
-  const deadline = '2022-11-09T21:00:00.000Z'; // Alcohol (-3 hours)
-  // const deadline = '2022-10-19T12:27:00.000Z';
+  const deadline = "2022-11-09T21:00:00.000Z"; // Alcohol (-3 hours)
+  // const deadline = "2022-10-19T12:27:00.000Z";
+
   function getTimeRemaining(end) {
-    const t = Date.parse(end) - new Date(),
-          d = Math.floor(t / (1000 * 60 * 60 * 24)),
-          h = Math.floor((t / (1000 * 60 * 60)) % 60),
-          m = Math.floor((t / (1000 * 60)) % 60),
-          s = Math.floor((t / 1000) % 60);
-    return {t, d, h, m, s};
+    const rem = Date.parse(end) - new Date(),
+      days = Math.floor(rem / (1000 * 60 * 60 * 24)),
+      hours = Math.floor((rem / (1000 * 60 * 60)) % 24),
+      minutes = Math.floor((rem / (1000 * 60)) % 60),
+      seconds = Math.floor((rem / 1000) % 60);
+
+    return { rem, days, hours, minutes, seconds };
   }
-  
+
   function getZero(num) {
     if (num >= 0 && num < 10) {
       return `0${num}`;
-    } else {return num;}
+    } else {
+      return num;
+    }
   }
 
   function setTimer(selector, end) {
     const timer = document.querySelector(selector),
-          d = timer.querySelector('#days'),
-          h = timer.querySelector('#hours'),
-          m = timer.querySelector('#minutes'),
-          s = timer.querySelector('#seconds'),
-          timerInterval = setInterval(updateTimer, 1000);        
+      days = timer.querySelector("#days"),
+      hours = timer.querySelector("#hours"),
+      minutes = timer.querySelector("#minutes"),
+      seconds = timer.querySelector("#seconds"),
+      timerIntervalId = setInterval(updateTimer, 1000);
 
     updateTimer();
     function updateTimer() {
-      const t = getTimeRemaining(end);
-        if (t.t > 0) {
-          d.textContent = getZero(t.d);
-          h.textContent = getZero(t.h);
-          m.textContent = getZero(t.m);
-          s.textContent = getZero(t.s);
-        } else {
-          clearInterval(timerInterval);
-          d.textContent =
-          h.textContent =
-          m.textContent =
-          s.textContent = '00';
-        }
+      const rem = getTimeRemaining(end);
+      if (rem.rem > 0) {
+        days.textContent = getZero(rem.days);
+        hours.textContent = getZero(rem.hours);
+        minutes.textContent = getZero(rem.minutes);
+        seconds.textContent = getZero(rem.seconds);
+      } else {
+        clearInterval(timerIntervalId);
+        days.textContent =
+          hours.textContent =
+          minutes.textContent =
+          seconds.textContent =
+            "00";
+      }
     }
   }
-  setTimer('.timer', deadline);
-//TIMER End
+  setTimer(".timer", deadline);
+  //TIMER End________________________________________________________
+
+  //MODAL Start
+  const modal = document.querySelector(".modal"),
+    modalClose = modal.querySelector(".modal__close"),
+    modalBtns = document.querySelectorAll("[data-modal]");
+    // openModalTimerId = setTimeout(openModal, 7000);
+
+  function openModal() {
+    modal.classList.add("show", "fade");
+    modal.classList.remove("hide", "fadeout");
+    document.body.style.marginRight = `${
+      window.innerWidth - document.documentElement.clientWidth
+    }px`;
+    document.body.style.overflow = "hidden";
+  }
+
+  function openModalByScroll() {
+    if (
+      document.documentElement.clientHeight + window.pageYOffset ==
+      document.documentElement.scrollHeight
+    ) {
+      openModal();
+      // console.log('true');
+      removeEventListener("scroll", openModalByScroll);
+    }    
+  }
+
+  function closeModal() {
+    modal.classList.add("fadeout");
+    // clearInterval(openModalTimerId);
+    setTimeout(() => {
+      modal.classList.add("hide");
+      modal.classList.remove("show", "fade");
+      document.body.style.marginRight = "";
+      document.body.style.overflow = "";
+    }, 400);
+  }
+
+  modalBtns.forEach((btn) => {
+    btn.addEventListener("click", openModal);
+  });
+  modalClose.addEventListener("click", closeModal);
+  modal.addEventListener("click", (event) => {
+    if (event.target.matches(".modal")) {
+      closeModal();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.code == "Escape" && modal.matches(".show")) {
+      closeModal();
+    }
+  });
+  window.addEventListener("scroll", openModalByScroll);
+  //MODAL End________________________________________________________
 
 
 
-//PROGRAM END 
+  //PROGRAM END
+
+  // Expiriens
 });

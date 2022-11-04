@@ -732,7 +732,7 @@ a {
 
 .fadeout {
   animation-name: fadeout;
-  animation-duration: 0.4s;
+  animation-duration: 0.2s;
 }
 @keyframes fadeout{
   from {opacity: 1;}

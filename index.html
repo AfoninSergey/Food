@@ -133,20 +133,22 @@
             </div>
           </div>
           <div class="offer__slider-wrapper">
-            <div class="offer__slide show fade">
-              <img src="img/slider/pepper.jpg" alt="pepper" />
-            </div>
-            <div class="offer__slide">
-              <img src="img/slider/food-12.jpg" alt="food" />
-            </div>
-            <div class="offer__slide">
-              <img src="img/slider/olive-oil.jpg" alt="oil" />
-            </div>
-            <div class="offer__slide">
-              <img src="img/slider/paprika.jpg" alt="paprika" />
-            </div>
-            <div class="offer__slide">
-              <img src="img/slider/bat.jpg" alt="bats" />
+            <div class="offer__slider-inner">
+              <div class="offer__slide">
+                <img src="img/slider/pepper.jpg" alt="pepper" />
+              </div>
+              <div class="offer__slide">
+                <img src="img/slider/food-12.jpg" alt="food" />
+              </div>
+              <div class="offer__slide">
+                <img src="img/slider/olive-oil.jpg" alt="oil" />
+              </div>
+              <div class="offer__slide">
+                <img src="img/slider/paprika.jpg" alt="paprika" />
+              </div>
+              <div class="offer__slide">
+                <img src="img/slider/bat.jpg" alt="bats" />
+              </div>
             </div>
           </div>
         </div>
@@ -161,12 +163,12 @@
         <div class="calculating__field">
           <div class="calculating__subtitle">Ваш пол</div>
           <div class="calculating__choose" id="gender">
-            <div
+            <div id="woman"
               class="calculating__choose-item calculating__choose-item_active"
             >
               Женщина
             </div>
-            <div class="calculating__choose-item">Мужчина</div>
+            <div id="man" class="calculating__choose-item">Мужчина</div>
           </div>
 
           <div class="calculating__subtitle">Ваша конституция</div>
@@ -195,19 +197,19 @@
             Выберите вашу физическая активность
           </div>
           <div class="calculating__choose calculating__choose_big">
-            <div id="low" class="calculating__choose-item">
+            <div id="low" data-ratio="1.2" class="calculating__choose-item">
               Низкая активность
             </div>
             <div
-              id="small"
+              id="small" data-ratio="1.375"
               class="calculating__choose-item calculating__choose-item_active"
             >
               Невысокая активность
             </div>
-            <div id="medium" class="calculating__choose-item">
+            <div id="medium" data-ratio="1.55" class="calculating__choose-item">
               Умеренная активность
             </div>
-            <div id="high" class="calculating__choose-item">
+            <div id="high" data-ratio="1.725" class="calculating__choose-item">
               Высокая активность
             </div>
           </div>
@@ -319,7 +321,7 @@
         </div>
         <div class="promotion__timer">
           <div contenteditable class="title exp">
-            До конца трезвой жизни осталось:
+            До Нового Года осталось:
           </div>
           <div class="timer">
             <div class="timer__block">
